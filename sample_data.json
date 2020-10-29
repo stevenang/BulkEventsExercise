@@ -1,0 +1,23 @@
+[
+  {
+    "locationName": "Los Angeles, CA",
+    "temperature": 23,
+    "timestamp": 1564428897,
+    "longitute": 40,
+    "latitute": -70
+  },
+  {
+    "locationName": "Nara, Japan",
+    "temperature": 23,
+    "timestamp": 1564428898,
+    "longitute": 50,
+    "latitute": -70
+  },
+  {
+    "locationName": "Taguig, Philippines",
+    "temperature": 10,
+    "timestamp": 1564428899,
+    "longitute": -40,
+    "latitute": -70
+  }
+]

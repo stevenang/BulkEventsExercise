@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  bulk-events
+
+  Sample SAM Template for bulk-events
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Runtime: java11
+    MemorySize: 512
+    Timeout: 25
+
+Resources:
+  LocationsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: locationName
+        Type: String
+
+  PipelineStartBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}-start
+
+  FanOutTopic:
+    Type: AWS::SNS::Topic
+
+  BulkEventsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bulk-events-stage/target/lambda.zip
+      Handler: tw.idv.stevenang.pipeline.bulk.BulkEventsLambda::handleRequest
+      Environment:
+        Variables:
+          FAN_OUT_TOPIC: !Ref FanOutTopic
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}-start
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt FanOutTopic.TopicName
+      Events:
+        S3Event:
+          Type: S3
+          Properties:
+            Bucket: !Ref PipelineStartBucket
+            Events: s3:ObjectCreated:*
+
+  SingleEventLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: single-event-stage/target/lambda.zip
+      Handler: tw.idv.stevenang.pipeline.single.SingleEventLambda::handleRequest
+      Environment:
+        Variables:
+          LOCATIONS_TABLE: !Ref LocationsTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LocationsTable
+      Events:
+        SNSEvent:
+          Type: SNS
+          Properties:
+            Topic: !Ref FanOutTopic

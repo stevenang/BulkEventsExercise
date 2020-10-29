@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common-code" />
+        <module name="common-code (1)" />
+        <module name="bulk-events-stage" />
+        <module name="single-event-stage" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bulk-events-stage" target="1.8" />
+      <module name="BulkEventApp" target="1.8" />
+      <module name="common-code" target="1.8" />
+      <module name="common-code (1)" target="1.8" />
+      <module name="HelloWorld" target="1.8" />
+      <module name="single-event-stage" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

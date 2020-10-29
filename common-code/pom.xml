@@ -1,0 +1,22 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>bulkevent</groupId>
+        <artifactId>BulkEventApp</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>common-code</artifactId>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>reproducible-build-maven-plugin</artifactId>
+                <version>0.10</version>
+                <groupId>io.github.zlika</groupId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
